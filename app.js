@@ -1,9 +1,11 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var socketio = require('./routes/socketio');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -14,6 +16,7 @@ var db = require('./routes/db');
 var cors = require('cors');
 var app = express();
 
+app.set('port',3000);// //52270
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -33,6 +36,11 @@ app.use('/test', test);
 app.use('/bang', bang);
 app.use('/db', db);
 
+var server = http.createServer(app);
+socketio.setServerToIO(server);
+var runServer = server.listen(app.get('port'),function(){
+  console.log('Server:'+ app.get('port') +  ' is running');
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -40,7 +48,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
+// error handler	
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
