@@ -27,13 +27,18 @@ router.post('/create', function(req, res, next) {
   var inV = req.body.v;
   var inNickname = req.body.nickname;
 
-  db_utils.insert_user(inNickname,function(err, userId) {
+  db_utils.insert_user(inNickname,function(err, userId){
+  	console.log("uuuu4 bangjangID :" + userId);
   	db_utils.create_room(inRoomName, inV, userId, function(err, outRoomId) {
-		var returnVal = {
+	   //res.send('respond with a resource');
+  	   // var returnVal =
+  	   //outRoomId = 111;
+		console.log("outRoomId :" + outRoomId);
+			var returnVal = {
 			roomId: outRoomId
 		}
 
-  		res.send(returnVal);
+  		res.send(JSON.stringify(returnVal));
 	});
 	  
   });
@@ -48,21 +53,18 @@ router.post('/create', function(req, res, next) {
 	처리 : roomId로 방정보 찾아 v(video id val)값, t(youtube timestamp)값 구해서 리턴, nickname으로 user생성 및 방 join정보 갱신
 	Output : { v, t }
 */
-router.post('/join', function(req, res, next){
+router.post('/join',function(req, res, next){
 	debug.log(req.body);
 	var inRoomId = req.body.roomId;
 	var inNickname = req.body.nickname;
- 	db_utils.insert_user(inNickname, function(err, userId) {
-	 	db_utils.get_room_info(inRoomId, function(err, room) {
-	 		console.log("room!!!");
-	 		console.log(room);
-			var returnVal = {
-		        v: room.videoId,
-		        t: room.videoTimestamp
-			} 		
-			res.send(returnVal);
-	 	});
- 	});
+ 	userId = db_utils.insert_user(inNickname);
+
+	var fakeReturn = {
+        v: '_0gN1dVQ1Cc',
+        t: '2m30s',
+	}
+
+	res.send(fakeReturn);
 });
 
 /*
