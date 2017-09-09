@@ -27,18 +27,13 @@ router.post('/create', function(req, res, next) {
   var inV = req.body.v;
   var inNickname = req.body.nickname;
 
-  db_utils.insert_user(inNickname,function(err, userId){
-  	console.log("uuuu4 bangjangID :" + userId);
+  db_utils.insert_user(inNickname,function(err, userId) {
   	db_utils.create_room(inRoomName, inV, userId, function(err, outRoomId) {
-	   //res.send('respond with a resource');
-  	   // var returnVal =
-  	   //outRoomId = 111;
-		console.log("outRoomId :" + outRoomId);
-			var returnVal = {
+		var returnVal = {
 			roomId: outRoomId
 		}
 
-  		res.send(JSON.stringify(returnVal));
+  		res.send(returnVal);
 	});
 	  
   });
@@ -53,18 +48,42 @@ router.post('/create', function(req, res, next) {
 	처리 : roomId로 방정보 찾아 v(video id val)값, t(youtube timestamp)값 구해서 리턴, nickname으로 user생성 및 방 join정보 갱신
 	Output : { v, t }
 */
-router.post('/join',function(req, res, next){
+router.post('/join', function(req, res, next){
 	debug.log(req.body);
 	var inRoomId = req.body.roomId;
 	var inNickname = req.body.nickname;
- 	userId = db_utils.insert_user(inNickname);
-
-	var fakeReturn = {
-        v: '_0gN1dVQ1Cc',
-        t: '2m30s',
-	}
-
-	res.send(fakeReturn);
+ 	db_utils.insert_user(inNickname, function(err, userId) {
+ 		if(err)
+ 		{
+ 			console.error(err);
+ 			return res.send(err);
+ 		}
+	 	db_utils.get_specific_room_info(inRoomId, function(err, room) {
+	 		console.log("room!!!");
+	 		console.log(room);
+	 		if(err)
+	 		{
+	 			return res.send(err);
+	 		}
+	 		if(room == 0)
+	 		{
+	 			var ret ={
+	 				v : '_0gN1dVQ1Cc',
+	 				t : '0s'
+	 			}
+	 			return res.send(ret);
+	 		}
+			var returnVal = {
+		        v: room.videoId,
+		        t: room.videoTimestamp
+			}
+			if(!room.videoTimestamp)
+			{
+				returnVal.t = '0s'
+			};
+			return res.send(returnVal);
+	 	});
+ 	});
 });
 
 /*
@@ -77,23 +96,55 @@ router.post('/join',function(req, res, next){
 */
 router.get('/list', function(req,res,next){
 	debug.log(req.body);
-
-	var fakeReturn = {
-		rooms: [{
-			roomId: 123,
-			roomName: 'hahah',
-			v: '_0gN1dVQ1Cc',
-	  		bangjang : 'na zzang'
-		},
+	db_utils.get_room_info(function(err, rooms){
+		if(err)
 		{
-			roomId: 123,
-			roomName: 'hahah',
-			v: '_0gN1dVQ1Cc',
-	  		bangjang : 'na zzang'
+ 			console.error(err);
+ 			return res.send(err);
 		}
-		]
-	};
+		if(rooms.length <= 0)
+		{
+			console.log('length<0');
+			return res.send({rooms : []});
+		}
+		var ret = {rooms:[]};
+		var cnt = 0;
+		rooms.forEach(function(data){
+			var oneVal = {roomId : data.roomId, roomName : data.roomName, v : data.videoId, bangjang : data.bangjangId, t : data.videoTimestamp};
+			ret.rooms[cnt++] = oneVal;
+			if(cnt == rooms.length)
+				return res.send(ret);
+		})
+	})
+});
 
-	res.send(fakeReturn);
+router.post('/id',function(req,res,next){
+	debug.log(req.body);
+	var inRoomId = req.body.roomId;
+	db_utils.get_specific_room_info(inRoomId, function(err, room) {
+	 	console.log("room!!!");
+	 	console.log(room);
+	 	if(err)
+	 	{
+	 		return res.send(err);
+	 	}
+	 	if(room == 0)
+	 	{
+	 		var ret ={
+	 			v : '_0gN1dVQ1Cc',
+	 			t : '0s'
+	 		}
+	 		return res.send(ret);
+	 	}
+		var returnVal = {
+		    v: room.videoId,
+		    t: room.videoTimestamp
+		}
+		if(!room.videoTimestamp)
+		{
+			returnVal.t = '0s'
+		};
+		return res.send(returnVal);
+	});
 })
 module.exports = router;
