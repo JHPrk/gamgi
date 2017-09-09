@@ -1,4 +1,5 @@
 var debug = require('./debugTool');
+var db_utils = require('./db_utils')
 var io;
 
 exports.setServerToIO = function(server,callback){ 
@@ -44,6 +45,18 @@ exports.setServerToIO = function(server,callback){
 				io.to(socket.roomid).emit('user cnt', Object.keys(io.sockets.adapter.rooms[socket.roomid].sockets).length);
 			io.to(socket.roomid).emit('notify',socket.nickname + '님이 방을 떠났습니다.');
 		});
+		socket.on('sync time', function(time){
+			debug.log(time);
+			db_utils.set_time_rewind(time,socket.nickname,socket.roomid, function(err,result){
+				if(err)
+				{
+					debug.log(err);
+					return;
+				}
+				debug.log('time changed!');
+				io.to(socket.roomid).emit('sync time', time);
+			})
+		})
 	});
 }
 exports.setIOnsp = function(nsp,callback){
