@@ -11,7 +11,7 @@ var pool = mysql.createPool({
   database: "gamgi"
 });
 
-exports.insert_user = function(userName,callback) {
+exports.insert_user = function(userName, callback) {
   var userId;
 
   pool.getConnection(function (err, con) {
@@ -22,17 +22,12 @@ exports.insert_user = function(userName,callback) {
           console.error("err : " + err);
           return callback(err);
         }
-        //console.log("rows : " + JSON.stringify(rows));
 
-        //res.render('index', {title: 'test', rows: rows});
         con.release(); // Don't use the connection here, it has been returned to the pool.
         userId = result.insertId;
-        console.log("uuuu1 :" + userId);
-        return callback(null,userId);
+        return callback(null, userId);
     });
-    console.log("uuuu2 :" + userId);
   });	
-  console.log("uuuu3 :" + userId);
 }
 
 exports.create_room = function(roomName, videoId, bangjangId, callback) {
@@ -51,8 +46,35 @@ exports.create_room = function(roomName, videoId, bangjangId, callback) {
         //res.render('index', {title: 'test', rows: rows});
         con.release(); // Don't use the connection here, it has been returned to the pool.
         roomId = result.insertId;
-        console.log("rrrr1 :" + roomId);
-        return callback(null,roomId);
+        return callback(null, roomId);
+    });
+
+  }); 
+}
+
+exports.get_room_info = function(roomId, callback) {
+  var roomId; 
+  pool.getConnection(function (err, con) {
+    // Use the connection
+    con.query('SELECT * FROM room WHERE roomId = (?)', 
+      [roomId],
+      function (err, rows) {
+        if (err) {
+          console.error("err : " + err);
+          return callback(err);
+        }
+        //console.log("rows : " + JSON.stringify(rows));
+        console.log("room start>>>> ");
+        //console.log(rows);
+        rowObjs = JSON.stringify(rows);
+        rowObj = rowObjs[0]
+        console.log(rowObj);
+        //console.log("vId: " + rowObj.videoId)
+        //console.log("vTs: " + rowObj.videoTimestamp)
+        console.log("room end>>>> ");
+        //res.render('index', {title: 'test', rows: rows});
+        con.release(); // Don't use the connection here, it has been returned to the pool.
+        return callback(null, rowObj);
     });
 
   }); 
