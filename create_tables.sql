@@ -7,7 +7,7 @@ CREATE TABLE user (
     userId int NOT NULL AUTO_INCREMENT,
     nickname varchar(255),
     PRIMARY KEY (userId)
-) ENGINE=INNODB;
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 CREATE TABLE room (
     roomId int NOT NULL AUTO_INCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE room (
     bangjangId int,
     PRIMARY KEY (roomId),
     FOREIGN KEY (bangjangId) REFERENCES user(userId)
-) ENGINE=INNODB;
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 # INSERT INTO user(nickname) VALUES ("youngee2");
 
