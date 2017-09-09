@@ -117,7 +117,7 @@ exports.set_time_rewind = function(timeSec, nickname, roomId, callback)
         console.error('err : ' + err);
         return callback(err);
       }
-      var videoStarttimeSeconds = Math.floor(new Date().getTime() / (Number(timeSec) * 1000));
+      var videoStarttimeSeconds = Math.floor((new Date().getTime() + Number(timeSec) * 1000) / 1000);
       con.query('UPDATE room SET videoTimestamp = ? WHERE roomId = ?', [videoStarttimeSeconds,roomId], function(err, result){
         con.release();
         if(err)
