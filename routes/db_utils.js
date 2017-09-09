@@ -63,7 +63,7 @@ exports.get_specific_room_info = function(roomId, callback) {
   var roomId; 
   pool.getConnection(function (err, con) {
     // Use the connection
-    con.query('SELECT * FROM room WHERE roomId = ?', 
+    con.query('SELECT roomId, roomName, videoId, videoTimestamp, bangjangId, nickname FROM room left join user on room.bangjangId = user.userId where room.roomId = ?', 
       [roomId],
       function (err, rows) {
         con.release(); // Don't use the connection here, it has been returned to the pool.
