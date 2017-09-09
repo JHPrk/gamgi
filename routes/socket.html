@@ -18,17 +18,25 @@
   <script>
     $(function () {
       var socket = io();
+      socket.emit('join','room2','hello');
       $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
       });
-      socket.on('chat message', function(msg){
+      socket.on('chat message', function(msg,nickname){
+        $('#messages').append($('<li>').text(nickname + ' : ' + msg));
+      });
+      socket.on('notify',function(msg){
         $('#messages').append($('<li>').text(msg));
+      });
+      socket.on('user cnt', function(cnt){
+        $('#cnt').text(cnt);
       });
     });
   </script>
   <body>
+    connected user num : <span id ="cnt"></span>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" />
