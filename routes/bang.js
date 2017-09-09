@@ -112,7 +112,16 @@ router.get('/list', function(req,res,next){
 		var ret = {rooms:[]};
 		var cnt = 0;
 		rooms.forEach(function(data){
-			var oneVal = {roomId : data.roomId, roomName : data.roomName, v : data.videoId, bangjang : data.bangjangId, t : data.videoTimestamp};
+			var curTimeSeconds = Math.floor(new Date().getTime() / 1000);
+			my_t = String(curTimeSeconds - Number(data.videoTimestamp));
+			var oneVal = {
+				roomId : data.roomId, 
+				roomName : data.roomName, 
+				v : data.videoId, 
+				bangjang : data.bangjangId,
+				t : my_t
+			};
+
 			ret.rooms[cnt++] = oneVal;
 			if(cnt == rooms.length)
 				return res.send(ret);
