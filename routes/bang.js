@@ -118,7 +118,7 @@ router.get('/list', function(req,res,next){
 				roomId : data.roomId, 
 				roomName : data.roomName, 
 				v : data.videoId, 
-				bangjang : data.bangjangId,
+				bangjang : data.nickname,
 				t : my_t
 			};
 
