@@ -21,6 +21,7 @@ exports.getIO = function(callback)
 	if(!io)
 	{
 		var err = new Error("bad Socket Lib!");
+		console.log('hello');
 		return callback(err);
 	}
 	return callback(null,io);

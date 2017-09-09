@@ -3,8 +3,13 @@ var router = express.Router();
 var io = require('./socketio');
 var debug = require('./debugTool');
 
-var nsp = io.getIO();
-
+/*io.getIO(function(err,io){
+	if(err)
+	{
+		console.log('not imported');
+	}
+});
+*/
 /* GET users listing. */
 
 /*
