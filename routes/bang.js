@@ -118,9 +118,9 @@ router.get('/list', function(req,res,next){
 	})
 });
 
-router.post('/id',function(req,res,next){
+router.get('/:id',function(req,res,next){
 	debug.log(req.body);
-	var inRoomId = req.body.roomId;
+	var inRoomId = req.query.id;
 	db_utils.get_specific_room_info(inRoomId, function(err, room) {
 	 	console.log("room!!!");
 	 	console.log(room);
@@ -137,6 +137,8 @@ router.post('/id',function(req,res,next){
 	 		return res.send(ret);
 	 	}
 		var returnVal = {
+			roomId : data.roomId,
+			roomName:data.roomName,
 		    v: room.videoId,
 		    t: room.videoTimestamp
 		}

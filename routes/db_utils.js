@@ -23,15 +23,12 @@ exports.insert_user = function(userName,callback) {
           console.error("err : " + err);
           return callback(err);
         }
-        //console.log("rows : " + JSON.stringify(rows));
-
-        //res.render('index', {title: 'test', rows: rows});
+        
         if(result.length <= 0)
         {
           debug.log('already exists');
           return callback(null, -1);
         }
-
         userId = result.insertId;
         console.log("uuuu1 :" + userId);
         return callback(null,userId);

@@ -16,8 +16,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
-    $(function () {
-      var socket = io();
+    $(func tion () {
+      var socket = io.connect('http://52.79.159.96:3000');
       socket.emit('join','room2','hello');
       $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
