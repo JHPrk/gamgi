@@ -1,9 +1,15 @@
 ### Gamgi Backend Project
 
-##### initial mysql setup
+##### initil mysql setup. create user
+	# type scripts in create_user.sql on mysql cmdline
+
+##### initial mysql setup. create tables
 	$ mysql -u jeffrey -p gamgi < create_tables.sql
 
-##### run server
+##### rum mysql server
+	$ sudo service mysql start
+
+##### run server (foreground)
 	$ cd gamgi
 	$ npm install
 	$ npm start
