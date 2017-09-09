@@ -69,18 +69,20 @@ router.post('/join', function(req, res, next){
 	 		{
 	 			var ret ={
 	 				v : '_0gN1dVQ1Cc',
-	 				t : '0s'
+	 				t : '0'
 	 			}
 	 			return res.send(ret);
 	 		}
-			var returnVal = {
+	 		var returnVal = {
 		        v: room.videoId,
-		        t: room.videoTimestamp
 			}
-			if(!room.videoTimestamp)
+	 		if(!room.videoTimestamp)
 			{
-				returnVal.t = '0s'
+				returnVal.t = '0';
+				return res.send(returnVal);
 			};
+	 		var curTimeSeconds = Math.floor(new Date().getTime() / 1000);
+		    returnVal.t = String(curTimeSeconds - Number(room.videoTimestamp));
 			return res.send(returnVal);
 	 	});
  	});
@@ -131,21 +133,25 @@ router.get('/:id',function(req,res,next){
 	 	if(room == 0)
 	 	{
 	 		var ret ={
-	 			v : '_0gN1dVQ1Cc',
-	 			t : '0s'
+				roomName: 'null',
+	 			v : 'null',
+	 			t : '0'
 	 		}
 	 		return res.send(ret);
 	 	}
+
 		var returnVal = {
-			roomId : data.roomId,
 			roomName:data.roomName,
 		    v: room.videoId,
-		    t: room.videoTimestamp
 		}
 		if(!room.videoTimestamp)
 		{
-			returnVal.t = '0s'
+			returnVal.t = '0';
+			return res.send(returnVal);
+
 		};
+		var curTimeSeconds = Math.floor(new Date().getTime() / 1000);
+		returnVal.t = String(curTimeSeconds - Number(room.videoTimestamp));
 		return res.send(returnVal);
 	});
 })

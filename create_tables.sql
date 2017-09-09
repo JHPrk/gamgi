@@ -1,3 +1,8 @@
+CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'mypass';
+GRANT ALL PRIVILEGES ON * . * TO 'jeffrey'@'localhost';
+
+CREATE DATABASE gamgi;
+
 CREATE TABLE user (
     userId int NOT NULL AUTO_INCREMENT,
     nickname varchar(255),
@@ -14,3 +19,8 @@ CREATE TABLE room (
     FOREIGN KEY (bangjangId) REFERENCES user(userId)
 ) ENGINE=INNODB;
 
+# INSERT INTO user(nickname) VALUES ("youngee2");
+
+# INSERT INTO room(roomName, videoId, videoTimestamp, bangjangId) VALUES ("youngee's room", "tbAQQhoqXNI", "2m30s", 1);
+
+# SELECT * FROM room WHERE roomId = 1;
