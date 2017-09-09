@@ -94,7 +94,7 @@ exports.get_specific_room_info = function(roomId, callback) {
 exports.get_room_info = function(callback)
 {
   pool.getConnection(function(err,con){
-    con.query('SELECT * FROM room',[],function(err,result){
+    con.query('SELECT roomId, roomName, videoId, videoTimestamp, bangjangId, nickname FROM room left join user on room.bangjangId = user.userId',[],function(err,result){
       con.release();
       if(err){
         console.error('err : ' + err);
@@ -117,7 +117,7 @@ exports.set_time_rewind = function(timeSec, nickname, roomId, callback)
         console.error('err : ' + err);
         return callback(err);
       }
-      var videoStarttimeSeconds = Math.floor((new Date().getTime() + Number(timeSec) * 1000) / 1000);
+      var videoStarttimeSeconds = Math.floor((new Date().getTime() - Number(timeSec) * 1000) / 1000);
       con.query('UPDATE room SET videoTimestamp = ? WHERE roomId = ?', [videoStarttimeSeconds,roomId], function(err, result){
         con.release();
         if(err)
