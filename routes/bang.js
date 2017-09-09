@@ -68,8 +68,8 @@ router.post('/join', function(req, res, next){
 	 		if(room == 0)
 	 		{
 	 			var ret ={
-	 				v : '_0gN1dVQ1Cc',
-	 				t : '0'
+	 				v : 'null',
+	 				t : '1'
 	 			}
 	 			return res.send(ret);
 	 		}
@@ -78,7 +78,7 @@ router.post('/join', function(req, res, next){
 			}
 	 		if(!room.videoTimestamp)
 			{
-				returnVal.t = '0';
+				returnVal.t = '1';
 				return res.send(returnVal);
 			};
 	 		var curTimeSeconds = Math.floor(new Date().getTime() / 1000);
@@ -136,7 +136,7 @@ router.get('/:id',function(req,res,next){
 	 		var ret ={
 				roomName: 'null',
 	 			v : 'null',
-	 			t : '0'
+	 			t : '1'
 	 		}
 	 		return res.send(ret);
 	 	}
@@ -147,7 +147,7 @@ router.get('/:id',function(req,res,next){
 		}
 		if(!room.videoTimestamp)
 		{
-			returnVal.t = '0';
+			returnVal.t = '1';
 			return res.send(returnVal);
 
 		};
