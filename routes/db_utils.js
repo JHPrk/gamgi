@@ -37,10 +37,11 @@ exports.insert_user = function(userName,callback) {
 
 exports.create_room = function(roomName, videoId, bangjangId, callback) {
   var roomId; 
+  var videoStarttimeSeconds = Math.floor(new Date().getTime() / 1000);
   pool.getConnection(function (err, con) {
     // Use the connection
-    con.query('INSERT INTO room(roomName, videoId, bangjangId) VALUES (?, ?, ?)', 
-      [roomName, videoId, bangjangId],
+    con.query('INSERT INTO room(roomName, videoId, videoTimestamp, bangjangId) VALUES (?, ?, ?, ?)', 
+      [roomName, videoId, videoStarttimeSeconds, bangjangId],
       function (err, result) {
         if (err) {
           console.error("err : " + err);
@@ -52,7 +53,7 @@ exports.create_room = function(roomName, videoId, bangjangId, callback) {
         con.release(); // Don't use the connection here, it has been returned to the pool.
         roomId = result.insertId;
         console.log("rrrr1 :" + roomId);
-        return callback(null,roomId);
+        return callback(null, roomId);
     });
 
   }); 
