@@ -1,7 +1,4 @@
-CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'mypass';
-GRANT ALL PRIVILEGES ON * . * TO 'jeffrey'@'localhost';
-
-CREATE DATABASE gamgi;
+# CREATE DATABASE gamgi;
 
 CREATE TABLE user (
     userId int NOT NULL AUTO_INCREMENT,
