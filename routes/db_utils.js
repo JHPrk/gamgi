@@ -108,3 +108,27 @@ exports.get_room_info = function(callback)
     })
   })
 }
+
+exports.set_time_rewind = function(timeSec, nickname, roomId, callback)
+{
+  pool.getConnection(function(err,con){
+    con.query('SELECT roomId, roomName, videoId, videoTimestamp, bangjangId, nickname FROM Room left join User on Room.bangjangId = User.userId where User.nickname = ?',[nickname],function(err,result){
+      if(err){
+        console.error('err : ' + err);
+        return callback(err);
+      }
+      var timeObject = new Date();
+      var seconds = timeObject.getSeconds() + Number(timeSec);
+      timeObject = timeObject + seconds;
+      var videoStarttimeSeconds = Math.floor(timeObject.getTime() / 1000);
+      con.query('UPDATE Room SET videoTimestamp = ? WHERE roomId = ?', [videoStarttimeSeconds,roomId], function(err, result){
+        if(err)
+        {
+          console.error('err : ' + err);
+          return callback(err);
+        }
+        return callback(null, true);
+      })
+    })
+  })
+}

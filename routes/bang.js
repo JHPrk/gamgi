@@ -145,7 +145,8 @@ router.get('/:id',function(req,res,next){
 	 		var ret ={
 				roomName: 'null',
 	 			v : 'null',
-	 			t : '1'
+	 			t : '1',
+	 			bangjang : 'null'
 	 		}
 	 		return res.send(ret);
 	 	}
@@ -153,6 +154,7 @@ router.get('/:id',function(req,res,next){
 		var returnVal = {
 			roomName:room.roomName,
 		    v: room.videoId,
+		    bangjang : room.bangjangId
 		}
 		if(!room.videoTimestamp)
 		{
