@@ -7,5 +7,10 @@
 	npm install
 	npm start
 
-### Gangi Frontend Project
+##### run server (background)
+	cd gamgi
+	npm install
+	forever start app.js
+
+### Gamgi Frontend Project
 see https://github.com/ChanMinPark/9xd_hackathon_h
