@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var io = require('./socketio');
+var db_utils = require('./db_utils');
 var debug = require('./debugTool');
 
 /*io.getIO(function(err,io){
@@ -26,13 +27,21 @@ router.post('/create', function(req, res, next) {
   var inV = req.body.v;
   var inNickname = req.body.nickname;
 
-  //res.send('respond with a resource');
-  // var returnVal =
-  var fakeReturn = {
-		roomId: 123
-	}
+  db_utils.insert_user(inNickname,function(err, userId){
+  	console.log("uuuu4 bangjangID :" + userId);
+  	db_utils.create_room(inRoomName, inV, userId, function(err, outRoomId) {
+	   //res.send('respond with a resource');
+  	   // var returnVal =
+  	   //outRoomId = 111;
+		console.log("outRoomId :" + outRoomId);
+			var returnVal = {
+			roomId: outRoomId
+		}
 
-  res.send(fakeReturn);
+  		res.send(JSON.stringify(returnVal));
+	});
+	  
+  });
 });
 
 
@@ -48,6 +57,7 @@ router.post('/join',function(req, res, next){
 	debug.log(req.body);
 	var inRoomId = req.body.roomId;
 	var inNickname = req.body.nickname;
+ 	userId = db_utils.insert_user(inNickname);
 
 	var fakeReturn = {
         v: '_0gN1dVQ1Cc',
