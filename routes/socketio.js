@@ -40,8 +40,9 @@ exports.setServerToIO = function(server,callback){
 		socket.on('disconnect', function(){
 			debug.log('user disconnected');
 			// debug.log(socket.nickname);
+			if(io.sockets.adapter.rooms[socket.roomid])	
+				io.to(socket.roomid).emit('user cnt', Object.keys(io.sockets.adapter.rooms[socket.roomid].sockets).length);
 			io.to(socket.roomid).emit('notify',socket.nickname + '님이 방을 떠났습니다.');
-			io.to(socket.roomid).emit('user cnt', Object.keys(io.sockets.adapter.rooms[socket.roomid].sockets).length);
 		});
 	});
 }
