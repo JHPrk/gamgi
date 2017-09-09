@@ -112,7 +112,7 @@ exports.get_room_info = function(callback)
 exports.set_time_rewind = function(timeSec, nickname, roomId, callback)
 {
   pool.getConnection(function(err,con){
-    con.query('SELECT roomId, roomName, videoId, videoTimestamp, bangjangId, nickname FROM Room left join User on room.bangjangId = user.userId where user.nickname = ?',[nickname],function(err,result){
+    con.query('SELECT roomId, roomName, videoId, videoTimestamp, bangjangId, nickname FROM room left join user on room.bangjangId = user.userId where user.nickname = ?',[nickname],function(err,result){
       if(err){
         console.error('err : ' + err);
         return callback(err);
