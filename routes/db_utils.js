@@ -24,13 +24,19 @@ exports.insert_user = function(userName,callback) {
           return callback(err);
         }
         con.release(); // Don't use the connection here, it has been returned to the pool.
+        //console.log("rows : " + JSON.stringify(rows));
+
+        //res.render('index', {title: 'test', rows: rows});
+        if(result.length <= 0)
+        {
+          debug.log('already exists');
+          return callback(null, -1);
+        }
+
         userId = result.insertId;
-        console.log("uuuu1 :" + userId);
         return callback(null,userId);
     });
-    console.log("uuuu2 :" + userId);
   }); 
-  console.log("uuuu3 :" + userId);
 }
 
 exports.create_room = function(roomName, videoId, bangjangId, callback) {
@@ -100,7 +106,7 @@ exports.get_room_info = function(callback)
       {
         return callback(null,0);
       }
-      return callback(null, con);
+      return callback(null, result);
     })
   })
 }
