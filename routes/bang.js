@@ -142,7 +142,7 @@ router.get('/:id',function(req,res,next){
 	 	}
 
 		var returnVal = {
-			roomName:data.roomName,
+			roomName:room.roomName,
 		    v: room.videoId,
 		}
 		if(!room.videoTimestamp)
