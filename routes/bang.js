@@ -154,7 +154,7 @@ router.get('/:id',function(req,res,next){
 		var returnVal = {
 			roomName:room.roomName,
 		    v: room.videoId,
-		    bangjang : room.bangjangId
+		    bangjang : room.nickname
 		}
 		if(!room.videoTimestamp)
 		{
