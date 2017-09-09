@@ -122,7 +122,8 @@ router.get('/list', function(req,res,next){
 
 router.get('/:id',function(req,res,next){
 	debug.log(req.body);
-	var inRoomId = req.query.id;
+	var inRoomId = req.params.id;
+	debug.log(inRoomId);
 	db_utils.get_specific_room_info(inRoomId, function(err, room) {
 	 	console.log("room!!!");
 	 	console.log(room);
