@@ -57,7 +57,7 @@ router.post('/join',function(req, res, next){
 	debug.log(req.body);
 	var inRoomId = req.body.roomId;
 	var inNickname = req.body.nickname;
- 	userId = db_utils.insert_user(inNickname);
+ 	userId = 1;//db_utils.insert_user(inNickname);
 
 	var fakeReturn = {
         v: '_0gN1dVQ1Cc',
